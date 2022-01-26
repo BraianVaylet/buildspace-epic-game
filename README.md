@@ -1,5 +1,5 @@
 <p align="center" width="200">
-   <img align="center" width="100" src="https://raw.githubusercontent.com/BraianVaylet/epic-game/main/screenshot/wizard.png" />   
+   <img align="center" width="100" src="https://raw.githubusercontent.com/BraianVaylet/buildspace-epic-game/main/screenshot/wizard.png" />   
 </p>
 
 # 🧙‍♂️ Epic Game [SmartContract]
