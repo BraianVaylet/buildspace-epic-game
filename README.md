@@ -2,7 +2,7 @@
    <img align="center" width="100" src="https://raw.githubusercontent.com/BraianVaylet/epic-game/main/screenshot/wizard.png" />   
 </p>
 
-# 🐲 Epic NFTs [SmartContract]
+# 🧙‍♂️ Epic Game [SmartContract]
 
 ### **[VER CONTRATO]()**
 
