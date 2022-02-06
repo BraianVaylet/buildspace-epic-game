@@ -1,0 +1,8 @@
+Contratos deployados:
+=====================
+
+1.deploy: 0xA948AF1E204348cC6c1506469eFd19d6F6e3614e 
+- Personajes, Jefe, Atacar al jefe.
+
+2.deploy: 0xD0Fe185a5F16c717595170fa84Cf4a43a8bD8EFc
+- Se agregaron funciones auxiliares y eventos.

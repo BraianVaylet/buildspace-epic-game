@@ -1,6 +1,13 @@
 const main = async () => {
   const gameContractFactory = await hre.ethers.getContractFactory('MyEpicGame');
   const gameContract = await gameContractFactory.deploy(
+    // Boss
+    "Big Kangh", // Boss name
+    "https://i.imgur.com/jBQ57F5.png", // Boss image
+    10000, // Boss hp
+    150, // Boss attack damage
+    // Players
+    // id
     [
       0,
       1,
@@ -15,6 +22,7 @@ const main = async () => {
       10,
       11
     ],
+    // name
     [
       'Arrow',
       'Assasin',
@@ -89,30 +97,10 @@ const main = async () => {
       50,
       50,
     ]                       
-  ); 
+  );                    
+  
   await gameContract.deployed();
   console.log("Contract deployed to:", gameContract.address);
-
-  
-  let txn;
-  txn = await gameContract.mintCharacterNFT(0);
-  await txn.wait();
-  console.log("Minted NFT #1");
-
-  txn = await gameContract.mintCharacterNFT(1);
-  await txn.wait();
-  console.log("Minted NFT #2");
-
-  txn = await gameContract.mintCharacterNFT(2);
-  await txn.wait();
-  console.log("Minted NFT #3");
-
-  txn = await gameContract.mintCharacterNFT(1);
-  await txn.wait();
-  console.log("Minted NFT #4");
-
-  console.log("Done deploying and minting!");
-
 };
 
 const runMain = async () => {
