@@ -6,3 +6,6 @@ Contratos deployados:
 
 2.deploy: 0xD0Fe185a5F16c717595170fa84Cf4a43a8bD8EFc
 - Se agregaron funciones auxiliares y eventos.
+
+3.deploy: 0x6e4fCCCB9bC1c7eC0f9F81Da42e3f2DBEC0C7f2d
+- Varios fixes

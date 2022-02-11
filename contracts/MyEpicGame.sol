@@ -17,9 +17,11 @@ import "hardhat/console.sol";
 contract MyEpicGame is ERC721 {
     //> Hacemos uso de un struct para manter los atributos de nuestro personaje.
     struct CharacterAttributes {
+        uint256 characterIndex;
         string name;
         string imageURI;
         uint256 hp;
+        uint256 maxHp;
         uint256 attackDamage;
         uint256 shield;
     }
@@ -69,7 +71,6 @@ contract MyEpicGame is ERC721 {
         uint256 bossHp,
         uint256 bossAttackDamage,
         //> Personajes
-        uint256[] memory characterIds,
         string[] memory characterNames,
         string[] memory characterImageURIs,
         uint256[] memory characterHp,
@@ -93,16 +94,20 @@ contract MyEpicGame is ERC721 {
 
         //> Recorremos todos los caracteres y guardamos sus valores en nuestro contrato para que
         // podemos usarlos más tarde cuando acuñamos nuestros NFT.
-        for (uint256 i = 0; i < characterIds.length; i += 1) {
-            defaultAttributes[characterIds[i]] = CharacterAttributes({
-                name: characterNames[i],
-                imageURI: characterImageURIs[i],
-                hp: characterHp[i],
-                attackDamage: characterAttackDmg[i],
-                shield: characterShield[i]
-            });
+        for (uint256 i = 0; i < characterNames.length; i += 1) {
+            defaultCharacters.push(
+                CharacterAttributes({
+                    characterIndex: i,
+                    name: characterNames[i],
+                    imageURI: characterImageURIs[i],
+                    hp: characterHp[i],
+                    maxHp: characterHp[i],
+                    attackDamage: characterAttackDmg[i],
+                    shield: characterShield[i]
+                })
+            );
 
-            CharacterAttributes memory c = defaultAttributes[characterIds[i]];
+            CharacterAttributes memory c = defaultCharacters[i];
             console.log(
                 "Done initializing %s w/ HP %s, img %s",
                 c.name,
@@ -158,29 +163,31 @@ contract MyEpicGame is ERC721 {
     }
 
     //> Los usuarios podran usar esta función y obtener su NFT en función del characterId que envíen.
-    function mintCharacterNFT(uint256 _characterId) external {
+    function mintCharacterNFT(uint256 _characterIndex) external {
         //> Obtenemos el tokenId actual (Inicia en 1 ya que se incrementa en el contructor).
         uint256 newItemId = _tokenIds.current();
         //> Asignamos el tokenId a la direccion de la wallet del usuario que llamo a la funcion.
         _safeMint(msg.sender, newItemId);
         // Mapeamos el tokenId => los atributos del personaje.
         nftHolderAttributes[newItemId] = CharacterAttributes({
-            name: defaultAttributes[_characterId].name,
-            imageURI: defaultAttributes[_characterId].imageURI,
-            hp: defaultAttributes[_characterId].hp,
-            attackDamage: defaultAttributes[_characterId].attackDamage,
-            shield: defaultAttributes[_characterId].shield
+            characterIndex: _characterIndex,
+            name: defaultCharacters[_characterIndex].name,
+            imageURI: defaultCharacters[_characterIndex].imageURI,
+            hp: defaultCharacters[_characterIndex].hp,
+            maxHp: defaultCharacters[_characterIndex].hp,
+            attackDamage: defaultCharacters[_characterIndex].attackDamage,
+            shield: defaultAttributes[_characterIndex].shield
         });
         //> Mantenemos una manera fácil de ver quién posee qué NFT.
         nftHolders[msg.sender] = newItemId;
         console.log(
             "Minted NFT w/ tokenId %s and characterId %s",
             newItemId,
-            _characterId
+            _characterIndex
         );
         //> Volvemos a incrementar el _tokenId para el proximo usuario.
         _tokenIds.increment();
-        emit CharacterNFTMinted(msg.sender, newItemId, _characterId);
+        emit CharacterNFTMinted(msg.sender, newItemId, _characterIndex);
     }
 
     function attackBoss() public {

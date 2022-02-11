@@ -7,21 +7,6 @@ const main = async () => {
     10000, // Boss hp
     150, // Boss attack damage
     // Players
-    // id
-    [
-      0,
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11
-    ],
     // name
     [
       'Arrow',
