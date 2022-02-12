@@ -59,7 +59,8 @@ contract MyEpicGame is ERC721 {
         uint256 tokenId,
         uint256 characterIndex
     );
-    event AttackComplete(uint256 newBossHp, uint256 newPlayerHp);
+    event AttackBossComplete(uint256 newBossHp, uint256 newPlayerHp);
+    event AttackCharacterComplete(uint256 newBossHp, uint256 newPlayerHp);
 
     //> Datos pasados ​​al contrato cuando se crea por primera vez inicializandolos
     // vamos a pasar estos valores desde run.js.
@@ -176,7 +177,7 @@ contract MyEpicGame is ERC721 {
             hp: defaultCharacters[_characterIndex].hp,
             maxHp: defaultCharacters[_characterIndex].hp,
             attackDamage: defaultCharacters[_characterIndex].attackDamage,
-            shield: defaultAttributes[_characterIndex].shield
+            shield: defaultCharacters[_characterIndex].shield
         });
         //> Mantenemos una manera fácil de ver quién posee qué NFT.
         nftHolders[msg.sender] = newItemId;
@@ -225,18 +226,41 @@ contract MyEpicGame is ERC721 {
         } else {
             bigBoss.hp = bigBoss.hp - player.attackDamage;
         }
+        console.log("Player attacked boss. New boss hp: %s", bigBoss.hp);
+        emit AttackBossComplete(bigBoss.hp, player.hp);
+    }
 
-        //> Permitimos al jugador atacar al Jefe
+    function attackCharacter() public {
+        uint256 nftTokenIdOfPlayer = nftHolders[msg.sender];
+        CharacterAttributes storage player = nftHolderAttributes[
+            nftTokenIdOfPlayer
+        ];
+        console.log("\nPlayer w/ character %s about to attack", player.name);
+        console.log(
+            "Player has %s HP, %s AD and %s Sh\n",
+            player.hp,
+            player.attackDamage,
+            player.shield
+        );
+        console.log(
+            "Boss %s has %s HP and %s AD",
+            bigBoss.name,
+            bigBoss.hp,
+            bigBoss.attackDamage
+        );
+        //> Validamos que el jugador no tenga un NFT con 0 HP.
+        require(player.hp > 0, "Error: character must have HP to attack boss.");
+        //> Validamos que el Jefe tenga mas de 0 HP.
+        require(bigBoss.hp > 0, "Error: boss must have HP to attack boss.");
+
+        //> Permitimos al jefe atacar al Jugador
         if ((player.hp + player.shield) < bigBoss.attackDamage) {
             player.hp = 0;
         } else {
             player.hp = (player.hp + player.shield) - bigBoss.attackDamage;
         }
-
-        console.log("Player attacked boss. New boss hp: %s", bigBoss.hp);
         console.log("Boss attacked player. New player hp: %s\n", player.hp);
-
-        emit AttackComplete(bigBoss.hp, player.hp);
+        emit AttackCharacterComplete(bigBoss.hp, player.hp);
     }
 
     function checkIfUserHasNFT()
