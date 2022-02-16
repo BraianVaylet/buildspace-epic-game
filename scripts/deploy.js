@@ -4,8 +4,8 @@ const main = async () => {
     // Boss
     "Big Kangh", // Boss name
     "https://i.imgur.com/jBQ57F5.png", // Boss image
-    10000, // Boss hp
-    150, // Boss attack damage
+    120000, // Boss hp
+    200, // Boss attack damage
     // Players
     // name
     [
