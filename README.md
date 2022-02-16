@@ -4,7 +4,7 @@
 
 # 🧙‍♂️ Epic Game [SmartContract]
 
-### **[VER CONTRATO]()**
+### **[VER CONTRATO](https://rinkeby.etherscan.io/address/0x6b741cf326784c304fb47fef4248e3b7e9d161d2)**
 
 ### Características del proyecto.
 
@@ -15,7 +15,7 @@
 - Los usuarios deben conectarse usando MetaMask.
 - Los NFTs podrán ser vendidos y son accesibles desde OpenSea o Rarible.
 
-Puede ingresar a la aplicacion Web [AQUI]()
+Puede ingresar a la aplicacion Web [AQUI](https://github.com/BraianVaylet/buildspace-epic-game-ui)
 
 ---
 
